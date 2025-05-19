@@ -1,0 +1,44 @@
+/* Añade estos estilos a CreateTickets.css */
+.create-button {
+    margin-top: 1rem;
+    padding: 8px 16px;
+    background-color: #646cff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.create-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.create-button:hover:not(:disabled) {
+    background-color: #747bff;
+}
+/* src/pages/CreateTickets/CreateTickets.css */
+.number-input-container {
+    margin: 1rem 0;
+}
+
+.number-input {
+    width: 120px;
+    padding: 8px 12px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.number-input:focus {
+    outline: none;
+    border-color: #646cff;
+}
+
+.number-input-error {
+    color: #ff4646;
+    font-size: 14px;
+    margin-top: 4px;
+    display: block;
+}
