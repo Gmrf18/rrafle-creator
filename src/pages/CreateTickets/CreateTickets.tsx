@@ -1,10 +1,21 @@
-import { ChangeEvent, FC, useState } from 'react';
+import { type ChangeEvent, type FC, useState } from 'react';
 import './CreateTickets.css';
 
+interface TicketProps {
+    nameOfClient?: string;
+    nameOfSeller?: string;
+    price?: number;
+    id: string;
+    number: number;
+    available: boolean;
+}
+
 const CreateTickets: FC = () => {
-    const [value, setValue] = useState<string>('');
+    const [numberOfTickets, setNumberOfTickets] = useState<string>('');
+    const [priceOfTickets, setPriceOfTickets] = useState<string>('');
     const [error, setError] = useState<string>('');
     const [showModal, setShowModal] = useState(false);
+    const [tickets, setTickets] = useState<TicketProps[]>([]);
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const inputValue = e.target.value;
@@ -18,7 +29,7 @@ const CreateTickets: FC = () => {
             setError('');
         }
 
-        setValue(inputValue);
+        setNumberOfTickets(inputValue);
     };
 
     const handleCreateTickets = () => {
@@ -26,49 +37,74 @@ const CreateTickets: FC = () => {
     };
 
     const confirmCreateTickets = () => {
-        const numValue = Number(value);
+        const numValue = Number(numberOfTickets);
+        const price = Number(priceOfTickets) | 10;
+
         if (!error && numValue > 0) {
-            console.log(numValue);
+            const newTickets: TicketProps[] = Array.from({length: numValue}, (_, index) => ({
+                id: crypto.randomUUID(),
+                price,
+                number: index + 1,
+                available: true
+            }));
+
+            setTickets(prevTickets => [...prevTickets, ...newTickets]);
             setShowModal(false);
+            setNumberOfTickets('');
+            setTimeout(() => console.log(tickets), 1)
         }
     };
 
     return (
-        <div className="number-input-container">
-            <input
-                type="number"
-                className="number-input"
-                value={value}
-                onChange={handleChange}
-                min="0"
-                max="9999"
-                placeholder="Ingresa un número"
-                aria-label="Número de tickets"
-            />
-            {error && <span className="number-input-error">{error}</span>}
-            <button
-                className="create-button"
-                onClick={handleCreateTickets}
-                disabled={!!error || !value}
-            >
-                Crear tickets
-            </button>
+        <div>
+            <div className="number-input-container">
+                <input
+                    type="number"
+                    className="number-input"
+                    value={numberOfTickets}
+                    onChange={handleChange}
+                    min="0"
+                    max="9999"
+                    placeholder="Numero de tickets"
+                    aria-label="Número de tickets"
+                />
 
-            {showModal && (
-                <div className="modal-overlay">
-                    <div className="modal-content">
-                        <p className="modal-message">¿Estás seguro que deseas crear {value} tickets?</p>
-                        <div className="modal-buttons">
-                            <button className="confirm-button" onClick={confirmCreateTickets}>
-                                Confirmar
-                            </button>
-                            <button className="cancel-button" onClick={() => setShowModal(false)}>
-                                Cancelar
-                            </button>
+                <input
+                    type="number"
+                    className="price-input"
+                    value={priceOfTickets}
+                    onChange={(e) => setPriceOfTickets(e.target.value)}
+                    min="0"
+                    placeholder="Precio"
+                    aria-label="Precio de tickets"
+                />
+
+                {error && <span className="number-input-error">{error}</span>}
+
+                <button
+                    className="create-button"
+                    onClick={handleCreateTickets}
+                    disabled={!!error || !numberOfTickets || !priceOfTickets}
+                >
+                    Crear tickets
+                </button>
+
+                {showModal && (
+                    <div className="modal-overlay">
+                        <div className="modal-content">
+                            <p className="modal-message">¿Estás seguro que deseas crear {numberOfTickets} tickets con precio ${priceOfTickets}?</p>
+                            <div className="modal-buttons">
+                                <button className="confirm-button" onClick={confirmCreateTickets}>
+                                    Confirmar
+                                </button>
+                                <button className="cancel-button" onClick={() => setShowModal(false)}>
+                                    Cancelar
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            )}
+                )}
+            </div>
         </div>
     );
 };

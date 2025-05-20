@@ -1,0 +1,36 @@
+/* Actualiza Ticket.css con estos estilos adicionales */
+.ticket-status {
+    font-size: 0.875rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    margin-left: auto;
+}
+
+.ticket-status.available {
+    background-color: #4caf50;
+    color: white;
+}
+
+.ticket-status.unavailable {
+    background-color: #ff4646;
+    color: white;
+}
+
+.ticket-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.ticket-unavailable {
+    opacity: 0.7;
+    background-color: #f5f5f5;
+}
+
+
+.ticket-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+}
