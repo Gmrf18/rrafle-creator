@@ -144,7 +144,6 @@ const CreateTickets: FC = () => {
                     aria-describedby={error && priceOfTickets.trim() !== '' ? "input-error" : undefined}
                 />
 
-                {/* Display error message */}
                 {error && <span id="input-error" className="number-input-error">{error}</span>}
 
                 <button
